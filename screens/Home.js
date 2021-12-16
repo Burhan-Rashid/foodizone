@@ -12,26 +12,25 @@ export default function Home() {
     const [restaurantData, setRestaurantData] = React.useState(localRestaurants);
 
     const getRestaurantsFromYelp = () => {
-        // const yelpUrl = `https://api.yelp.com/v3/businesses/search?term=restaurants&location=SanDiego`;
+        const yelpUrl = `https://api.yelp.com/v3/businesses/search?term=restaurants&location=SanDiego`;
+        const apiOptions = {
+            headers: {
+                Authorization: `Bearer ${YELP_API_KEY}`,
+            },
+        };
 
-        // const apiOptions = {
-        //     headers: {
-        //         Authorization: `Bearer ${YELP_API_KEY}`,
-        //     },
-        // };
-
-        // fetch(yelpUrl, apiOptions).then((res) => console.log(res))
-
-        // return fetch(yelpUrl, apiOptions)
-        //     .then((res) => (res.json))
-        //     .then((json) => setRestaurantData(json.businesses));
+        return fetch(yelpUrl, apiOptions)
+            .then((res) => (res.json))
+            .then((json) => setRestaurantData(json.businesses));
 
     }
 
-    React.useEffect(() => { getRestaurantsFromYelp() }, [])
+    React.useEffect(() => {
+        //getRestaurantsFromYelp() 
+    }, [])
 
     return (
-        <SafeAreaView style={{ backgroundColor: "#eee", flex: 1 }}> {/* For displaying correctly below notches in iphone with notches */}
+        <SafeAreaView style={{ backgroundColor: "#eee", flex: 1 }}>
             <View
                 style={{
                     backgroundColor: "white",

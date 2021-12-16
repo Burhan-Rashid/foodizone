@@ -1,6 +1,5 @@
 import React from 'react'
-import { View, Text } from 'react-native'
-import { TouchableOpacity } from 'react-native-web'
+import { View, Text, TouchableOpacity } from 'react-native'
 
 export default function HeaderTabs() {
 
@@ -41,7 +40,7 @@ const HeaderButton = ({ text, activeTab, setActiveTab }) => (
             style={{
                 color: activeTab === text ? "white" : "black",
                 fontSize: 15,
-                fontWeight: 900,
+                fontWeight: "900",
             }}>
             {text}
         </Text>
