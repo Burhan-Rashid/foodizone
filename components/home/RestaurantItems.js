@@ -37,7 +37,7 @@ export const localRestaurants = [
     },
 ]
 
-export default function RestaurantItems({ restaurantData }) {
+export default function RestaurantItems({ restaurantData, navigation }) {
     return (
         <TouchableOpacity
             activeOpacity={1}

@@ -74,7 +74,11 @@ export default function MenuItems() {
                             <FoodInfo food={food} />
                             <FoodImage image={food.image} />
                         </View>
-                        <Divider width={0.5} />
+                        <Divider
+                            width={0.5}
+                            orientation='vertical'
+                            style={{ marginHorizontal: 20 }}
+                        />
                     </View>
                 ))
             }
