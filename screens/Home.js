@@ -1,49 +1,70 @@
 import React from 'react'
-import { View, SafeAreaView, ScrollView } from 'react-native'
-import Categories from '../components/Categories'
-import HeaderTabs from '../components/HeaderTabs'
-import RestaurantItems, { localRestaurants } from '../components/RestaurantItems'
-import SearchBar from '../components/SearchBar'
+import { View, SafeAreaView, ScrollView, Platform, StatusBar } from 'react-native'
+import Categories from '../components/home/Categories'
+import HeaderTabs from '../components/home/HeaderTabs'
+import RestaurantItems, { localRestaurants } from '../components/home/RestaurantItems'
+import SearchBar from '../components/home/SearchBar'
+
+import axios from 'axios'
+import BottomTabs from '../components/home/BottomTabs'
+import { Divider } from 'react-native-elements'
 
 const YELP_API_KEY =
-    "bdRJutLhFAQJ36t7b89CWjHFBU4OKzjt9wvZzcY-nkgmvTqlNMjZWV1eG7iBQ9R74SyfxRg9LWnBAkZY06BtAZAe4d2dfX-2vuX8a1l5V7foctHfX9UKEyoM5ts3YXYx";
+    "jQhESBO6INboEz7ZJY8CpPhTlSX78qqtDOgmUQEv_Aqo277vPFDK0iLX19revMPkGARdh3HBAN1rLM-5QBfTSTFpmgpglrGhIeZR1SVWzD_GWfD-d11FEHgxERm8YXYx";
 
 export default function Home() {
     const [restaurantData, setRestaurantData] = React.useState(localRestaurants);
+    const [city, setCity] = React.useState("Hollywood");
+    const [activeTab, setActiveTab] = React.useState("Delivery");
 
-    const getRestaurantsFromYelp = () => {
-        const yelpUrl = `https://api.yelp.com/v3/businesses/search?term=restaurants&location=SanDiego`;
+    const getRestaurantsFromYelp = async () => {
+        const yelpUrl = `https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=restaurants&location=${city}`;
         const apiOptions = {
             headers: {
-                Authorization: `Bearer ${YELP_API_KEY}`,
+                "accept": "application/json",
+                "Access-Control-Allow-Origin": "*",
+                "x-requested-with": "xmlhttprequest",
+                "Authorization": `Bearer ${YELP_API_KEY}`
             },
         };
-
-        return fetch(yelpUrl, apiOptions)
-            .then((res) => (res.json))
-            .then((json) => setRestaurantData(json.businesses));
+        const res = await axios.get(yelpUrl, apiOptions);
+        console.log(res.data.businesses);
+        const restaurants = res.data.businesses.filter((restaurant) => (restaurant.transactions.includes(activeTab.toLowerCase())))
+        setRestaurantData(restaurants);
+        // fetch(yelpUrl, apiOptions).then((res) => (res.json)).then((json) => console.log(json))
+        // return fetch(yelpUrl, apiOptions)
+        //     .then((res) => (res.json))
+        //     .then((json) => setRestaurantData(json.businesses));
 
     }
 
     React.useEffect(() => {
-        //getRestaurantsFromYelp() 
-    }, [])
+        getRestaurantsFromYelp()
+    }, [city, activeTab])
 
     return (
-        <SafeAreaView style={{ backgroundColor: "#eee", flex: 1 }}>
+        <SafeAreaView
+            style={{
+                backgroundColor: "#eee",
+                flex: 1,
+                paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
+            }}
+        >
             <View
                 style={{
                     backgroundColor: "white",
                     padding: 15
                 }}
             >
-                <HeaderTabs />
-                <SearchBar />
+                <HeaderTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+                <SearchBar cityHandler={setCity} />
             </View>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <Categories />
                 <RestaurantItems restaurantData={restaurantData} />
             </ScrollView>
+            <Divider width={1} />
+            <BottomTabs />
         </SafeAreaView >
     )
 }

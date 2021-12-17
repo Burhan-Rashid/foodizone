@@ -1,9 +1,7 @@
 import React from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
 
-export default function HeaderTabs() {
-
-    const [activeTab, setActiveTab] = React.useState("Deliver");
+export default function HeaderTabs({ activeTab, setActiveTab }) {
 
     return (
         <View
@@ -12,12 +10,12 @@ export default function HeaderTabs() {
                 alignSelf: "center"
             }}>
             <HeaderButton
-                text="Deliver"
+                text="Delivery"
                 activeTab={activeTab}
                 setActiveTab={setActiveTab}
             />
             <HeaderButton
-                text="PickUp"
+                text="Pickup"
                 activeTab={activeTab}
                 setActiveTab={setActiveTab}
             />
