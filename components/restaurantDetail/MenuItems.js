@@ -1,5 +1,6 @@
 import React from 'react'
 import { View, Text, Image, ScrollView } from 'react-native'
+import BouncyCheckbox from 'react-native-bouncy-checkbox'
 import { Divider } from 'react-native-elements'
 
 const foods = [
@@ -62,17 +63,27 @@ export default function MenuItems() {
                     <View key={index}>
                         <View
                             style={{
-                                width: "100%",
-                                height: 100,
                                 flexDirection: "row",
-                                alignItems: "center",
-                                justifyContent: "space-between",
                                 paddingHorizontal: 15,
-                                marginVertical: 10,
                             }}
                         >
-                            <FoodInfo food={food} />
-                            <FoodImage image={food.image} />
+                            <BouncyCheckbox
+                                iconStyle={{ borderColor: "lightgray", borderRadius: 0 }}
+                                fillColor="green"
+                            />
+                            <View
+                                style={{
+                                    flex: 1,
+                                    height: 100,
+                                    flexDirection: "row",
+                                    alignItems: "center",
+                                    justifyContent: "space-between",
+                                    marginVertical: 10,
+                                }}
+                            >
+                                <FoodInfo food={food} />
+                                <FoodImage image={food.image} />
+                            </View>
                         </View>
                         <Divider
                             width={0.5}
@@ -88,7 +99,7 @@ export default function MenuItems() {
 
 const FoodInfo = ({ food }) => (
     <View style={{
-        width: "68%",
+        flex: 2,
         justifyContent: "space-evenly"
     }}
     >
@@ -99,7 +110,9 @@ const FoodInfo = ({ food }) => (
 )
 
 const FoodImage = ({ image }) => (
-    <View>
+    <View style={{
+        flex: 1,
+    }}>
         <Image source={{ uri: image }} style={{ borderRadius: 10, height: 100, width: 100, paddingRight: 10 }} />
     </View>
 )

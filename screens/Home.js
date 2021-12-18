@@ -14,7 +14,7 @@ const YELP_API_KEY =
 
 export default function Home({ navigation }) {
     const [restaurantData, setRestaurantData] = React.useState(localRestaurants);
-    const [city, setCity] = React.useState("Hollywood");
+    const [city, setCity] = React.useState("SanDeigo");
     const [activeTab, setActiveTab] = React.useState("Delivery");
 
     const getRestaurantsFromYelp = async () => {
